@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Nancy;
+using Nancy.Json;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using WeatherAPI.Repository.Interfaces;
+using WeatherAPI.Repository.Models;
 
 namespace WeatherAPI.Repository
 {
@@ -25,7 +30,11 @@ namespace WeatherAPI.Repository
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
-                //var res = JsonConvert.DeserializeObject<string>(content);
+                var res = JsonConvert.DeserializeObject<WeatherData>(content);
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                dynamic jsonObject = serializer.Deserialize<dynamic>(content);
+                dynamic x = jsonObject["properties"]["parameter"];
                 return content;
             }
             else

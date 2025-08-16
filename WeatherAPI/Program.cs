@@ -6,15 +6,21 @@ using WeatherAPI.BusinessLogic;
 using WeatherAPI.BusinessLogic.Interfaces;
 using WeatherAPI.Repository;
 using WeatherAPI.Repository.Interfaces;
+using Scrutor;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+Assembly assembly = Assembly.GetExecutingAssembly();
 
-builder.Services.AddScoped<IWeatherDataBusinessLogic, WeatherDataBusinessLogic>();
-builder.Services.AddScoped<IWeatherDataRepository, WeatherDataRepository>();
 builder.Services.AddScoped<HttpClient>();
 
+//Dependency Injection with scan using reflection
+builder.Services.Scan(scan => scan.FromAssemblies(assembly)
+                                .AddClasses()
+        .AsMatchingInterface()
+        .WithTransientLifetime());
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
