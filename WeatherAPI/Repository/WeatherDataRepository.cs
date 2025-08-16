@@ -1,10 +1,12 @@
 ﻿using Nancy;
+using Nancy.Extensions;
 using Nancy.Json;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
@@ -34,7 +36,22 @@ namespace WeatherAPI.Repository
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 dynamic jsonObject = serializer.Deserialize<dynamic>(content);
-                dynamic x = jsonObject["properties"]["parameter"];
+                var weatherData = jsonObject["properties"]["parameter"];
+
+                var weatherDataMap = new List<WeatherData>();
+
+                foreach(var weatherType in weatherData)
+                {
+                    var weather = new WeatherData();
+                    weather.WeatherType = weatherType.Key;
+
+                    foreach(var values in weatherType.Value)
+                    {
+                        weather.Values.Add(values.Key, values.Value);
+                    }
+                    weatherDataMap.Add(weather);
+                }
+                
                 return content;
             }
             else

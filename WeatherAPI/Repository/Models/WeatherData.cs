@@ -31,14 +31,9 @@ namespace WeatherAPI.Repository.Models
              public Dictionary<string, double> Values = new Dictionary<string, double>();
          }*/
 
-        public string Type { get; set; } = string.Empty;
-        public Geometry geometry { get; set; } = new Geometry();
+        public string WeatherType { get; set; } = string.Empty;
+        
 
-        public class Geometry
-        {
-            //JsonProperty["type"]
-            string Type { get; set; } = string.Empty;
-            double[] Coordinates { get; set; } 
-        }
+        public Dictionary<string, double> Values = new Dictionary<string, double>();
     }
 }
