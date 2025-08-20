@@ -32,26 +32,10 @@ namespace WeatherAPI.Repository
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
-                var res = JsonConvert.DeserializeObject<WeatherData>(content);
+                //var res = JsonConvert.DeserializeObject<WeatherData>(content);
 
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                dynamic jsonObject = serializer.Deserialize<dynamic>(content);
-                var weatherData = jsonObject["properties"]["parameter"];
+                var weatherDatamap = MapWeatherData(content);
 
-                var weatherDataMap = new List<WeatherData>();
-
-                foreach(var weatherType in weatherData)
-                {
-                    var weather = new WeatherData();
-                    weather.WeatherType = weatherType.Key;
-
-                    foreach(var values in weatherType.Value)
-                    {
-                        weather.Values.Add(values.Key, values.Value);
-                    }
-                    weatherDataMap.Add(weather);
-                }
-                
                 return content;
             }
             else
@@ -59,6 +43,38 @@ namespace WeatherAPI.Repository
                 // Handle error, e.g., throw an exception or return null
                 return null;
             }
+        }
+
+        public List<WeatherData> MapWeatherData(string content)
+        {
+            var weatherDataMap = new List<WeatherData>();
+
+            //return empty list of no content
+            if(string.IsNullOrEmpty(content)) return weatherDataMap;
+
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            dynamic jsonObject = serializer.Deserialize<dynamic>(content);
+            var weatherData = jsonObject["properties"]["parameter"];
+
+            foreach (var weatherType in weatherData)
+            {
+                var weather = new WeatherData();
+                weather.WeatherType = weatherType.Key;
+
+                foreach (var values in weatherType.Value)
+                {
+                    //skip if no data exists for day
+                    if (values.Value == -999) continue;
+
+                    var val = new WeatherData.Value();
+                    val.Day = values.Key;
+                    val.Val = values.Value;
+                    weather.Values.Add(val);
+                }
+                weatherDataMap.Add(weather);
+            }
+
+            return weatherDataMap;
         }
     }
 }

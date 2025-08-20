@@ -4,36 +4,49 @@ namespace WeatherAPI.Repository.Models
 {
     public class WeatherData
     {
-        /* public class Properties
-         {
-             public List<Parameter> parameter { get; set; } = new List<Parameter>();
-         }
-
-         public class Parameter
-         {
-             public List<T2M> T2M { get; set; } = new List<T2M>();
-             public List<PS> PS { get; set; } = new List<PS>();
-             public List<WS10M> WS10M { get; set; } = new List<WS10M>();
-         }
-
-         public class T2M
-         {
-             public Dictionary<string, double> Values = new Dictionary<string, double>();
-         }
-
-         public class PS
-         {
-             public Dictionary<string, double> Values = new Dictionary<string, double>();
-         }
-
-         public class WS10M
-         {
-             public Dictionary<string, double> Values = new Dictionary<string, double>();
-         }*/
-
         public string WeatherType { get; set; } = string.Empty;
-        
 
-        public Dictionary<string, double> Values = new Dictionary<string, double>();
+        public List<Value> Values = new List<Value>();
+        public class Value
+        {
+            public string Day { get; set; } = string.Empty;
+
+            public DateTime? Date
+            {
+                get
+                {
+                    if (!string.IsNullOrEmpty(Day))
+                    {
+                        var year = int.Parse(Day.Substring(0, 4));
+                        var month = int.Parse(Day.Substring(4, 2));
+                        var day = int.Parse(Day.Substring(6, 2));
+
+                        return new DateTime(year, month, day);
+                    }
+                    return null;
+                
+                }
+                set
+                {
+   
+                }
+            }
+            public double Val { get; set; }
+            public int? DayOfYear
+            {
+                get
+                {
+                    if(Date != null)
+                    {
+                        return Date.Value.DayOfYear;
+                    }
+                    return null;
+                }
+                set
+                {
+
+                }
+            }
+        }
     }
 }
