@@ -25,18 +25,19 @@ namespace WeatherAPI.Repository
             _httpClient = httpClient;
         }
 
-        public async Task<string> GetWeatherData()
+        public async Task<List<WeatherData>?> GetWeatherData()
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PS,WS10M&community=AG&longitude=0&latitude=0&start=20170101&end=20170201&format=json");
+            HttpResponseMessage response = await _httpClient.GetAsync("https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,T2M_MAX,T2M_MIN&community=AG&latitude=41.505493&longitude=-81.681290&start=20170101&end=20171231&units=imperial&format=json");
 
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
                 //var res = JsonConvert.DeserializeObject<WeatherData>(content);
 
+                //var weatherDatamap = MapWeatherData(content);
                 var weatherDatamap = MapWeatherData(content);
 
-                return content;
+                return weatherDatamap;
             }
             else
             {
@@ -44,6 +45,8 @@ namespace WeatherAPI.Repository
                 return null;
             }
         }
+
+
 
         public List<WeatherData> MapWeatherData(string content)
         {
@@ -76,5 +79,6 @@ namespace WeatherAPI.Repository
 
             return weatherDataMap;
         }
+       
     }
 }

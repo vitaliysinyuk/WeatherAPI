@@ -6,7 +6,7 @@ namespace WeatherAPI.Repository.Models
     {
         public string WeatherType { get; set; } = string.Empty;
 
-        public List<Value> Values = new List<Value>();
+        public List<Value> Values { get; set; } = new List<Value>();
         public class Value
         {
             public string Day { get; set; } = string.Empty;
