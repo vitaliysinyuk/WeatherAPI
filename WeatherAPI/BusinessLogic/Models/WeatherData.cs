@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Serialization;
-
-namespace WeatherAPI.Repository.Models
+﻿namespace WeatherAPI.BusinessLogic.Models
 {
     public class WeatherData
     {
@@ -9,7 +7,7 @@ namespace WeatherAPI.Repository.Models
         public List<Value> Values { get; set; } = new List<Value>();
         public class Value : WeatherBase
         {
-                          
+
         }
     }
 }

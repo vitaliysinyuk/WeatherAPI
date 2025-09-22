@@ -8,6 +8,7 @@ using WeatherAPI.Repository;
 using WeatherAPI.Repository.Interfaces;
 using Scrutor;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Adding Automapper profiles
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddMaps(assembly);
+});
 
 //-- CORS
 builder.Services.AddCors(); 
