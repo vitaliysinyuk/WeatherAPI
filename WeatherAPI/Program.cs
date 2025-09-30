@@ -1,21 +1,19 @@
 
-
-
-using Microsoft.AspNetCore.Builder;
-using WeatherAPI.BusinessLogic;
-using WeatherAPI.BusinessLogic.Interfaces;
-using WeatherAPI.Repository;
-using WeatherAPI.Repository.Interfaces;
-using Scrutor;
+using Microsoft.AspNetCore.Connections;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
+using WeatherAPI.Models;
+using Microsoft.Extensions.Configuration;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
 // Add services to the container.
 Assembly assembly = Assembly.GetExecutingAssembly();
 
 builder.Services.AddScoped<HttpClient>();
+
 
 //Dependency Injection with scan using reflection
 builder.Services.Scan(scan => scan.FromAssemblies(assembly)
@@ -35,7 +33,15 @@ builder.Services.AddAutoMapper(cfg =>
 });
 
 //-- CORS
-builder.Services.AddCors(); 
+builder.Services.AddCors();
+
+
+IConfiguration config = builder.Configuration;
+//Settings
+var nasaPowerSettings = new NASAPowerSettings();
+nasaPowerSettings.DailyWeather = config.GetSection("NASAPower:Daily").Get<NASAPowerSettings.Daily>();
+
+builder.Services.AddSingleton(nasaPowerSettings);
 
 
 var app = builder.Build();

@@ -5,6 +5,7 @@
         public double DailyTemp { get; set; }
         public double DailyTempMax { get; set; }
         public double DailyTempMin { get; set; }
+        public double Precipitation { get; set; }
         
     }
 }

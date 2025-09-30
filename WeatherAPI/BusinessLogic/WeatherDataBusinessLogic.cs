@@ -17,18 +17,17 @@ namespace WeatherAPI.BusinessLogic
             _autoMapper = autoMapper;
         }
 
-        public Task<List<WeatherData>?> GetWeatherData()
+        public Task<List<WeatherData>> GetWeatherData(DateTime fromDate, DateTime toDate, float lat, float lon)
         {
-            var weatherDataP = _weatherDataRepository.GetWeatherData();
+            var weatherDataP = _weatherDataRepository.GetWeatherData(fromDate, toDate, lat, lon);
             var weatherDataD = _autoMapper.Map<Task<List<WeatherData>>>(weatherDataP);
-            //var weatherDataByDay = MapWeatherDataByDay(weatherData.Result);
 
             return weatherDataD;
         }
 
-        public async Task<List<WeatherDataByDay>> GetWeatherDataByDay()
+        public async Task<List<WeatherDataByDay>> GetWeatherDataByDay(DateTime fromDate, DateTime toDate, float lat, float lon)
         {
-            var weatherDataP = await _weatherDataRepository.GetWeatherData();
+            var weatherDataP = await _weatherDataRepository.GetWeatherData(fromDate, toDate, lat, lon);
 
             var weatherDataD = _autoMapper.Map<List<WeatherData>>(weatherDataP);
             var weatherDataByDay = MapWeatherDataByDay(weatherDataD);
@@ -36,6 +35,11 @@ namespace WeatherAPI.BusinessLogic
             return weatherDataByDay;
         }
 
+        /// <summary>
+        /// Build weather data map by day for front end ReCharts
+        /// </summary>
+        /// <param name="weatherData"></param>
+        /// <returns></returns>
         public List<WeatherDataByDay> MapWeatherDataByDay(List<WeatherData>? weatherData)
         {
             var weatherDataMap = new List<WeatherDataByDay>();
@@ -67,6 +71,12 @@ namespace WeatherAPI.BusinessLogic
             return weatherDataMap;
         }
 
+        /// <summary>
+        /// Map values for each specific weather data type 
+        /// </summary>
+        /// <param name="weather"></param>
+        /// <param name="weatherType"></param>
+        /// <returns></returns>
         private WeatherDataByDay MapDescription(WeatherDataByDay weather, string weatherType)
         {
 
@@ -80,6 +90,9 @@ namespace WeatherAPI.BusinessLogic
                     break;
                 case "T2M_MAX":
                     weather.DailyTempMax = weather.Val;
+                    break;
+                case "PRECTOTCORR":
+                    weather.Precipitation = weather.Val;
                     break;
                 default:
                     break;
