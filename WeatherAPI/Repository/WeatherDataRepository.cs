@@ -25,13 +25,12 @@ namespace WeatherAPI.Repository
             var start = ConvertDate(fromDate);
             var end = ConvertDate(toDate);
             var url = FormatNasaUrl(_nasaPowerSettings.DailyWeather.Community, _nasaPowerSettings.DailyWeather.Parameters, _nasaPowerSettings.DailyWeather.Format, _nasaPowerSettings.DailyWeather.TimeStandard);
-            //HttpResponseMessage response = await _httpClient.GetAsync($"https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,T2M_MAX,T2M_MIN,PRECTOTCORR&community=AG&latitude={lat}&longitude={lon}&start={start}&end={end}&units=imperial&format=json");
+
             HttpResponseMessage response = await _httpClient.GetAsync($"{_nasaPowerSettings.DailyWeather.NASAPowerBaseURL}latitude={lat}&longitude={lon}&start={start}&end={end}&{url}");
 
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
-                //var res = JsonConvert.DeserializeObject<WeatherData>(content);
 
                 var weatherDatamap = MapWeatherData(content);
 
@@ -49,7 +48,11 @@ namespace WeatherAPI.Repository
             return $"{parameters}&{community}&{format}&{timeStandard}";
         }
 
-
+        /// <summary>
+        /// Converts dates to the string format that the nasa power API requests
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         private string ConvertDate(DateTime date)
         {
             var year = date.Year.ToString();
