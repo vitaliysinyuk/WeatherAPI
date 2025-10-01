@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using WeatherAPI.BusinessLogic.Interfaces;
 using WeatherAPI.BusinessLogic.Models;
 using Repo = WeatherAPI.Repository.Interfaces;

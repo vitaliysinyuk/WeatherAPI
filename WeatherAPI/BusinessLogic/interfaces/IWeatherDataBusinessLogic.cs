@@ -1,6 +1,4 @@
-﻿using System;
-
-using WeatherAPI.BusinessLogic.Models;
+﻿using WeatherAPI.BusinessLogic.Models;
 
 namespace WeatherAPI.BusinessLogic.Interfaces
 {

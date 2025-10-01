@@ -1,7 +1,4 @@
-﻿
-using Nancy.Json;
-using Newtonsoft.Json;
-using System.Web.WebPages;
+﻿using Nancy.Json;
 using WeatherAPI.Models;
 using WeatherAPI.Repository.Interfaces;
 using WeatherAPI.Repository.Models;

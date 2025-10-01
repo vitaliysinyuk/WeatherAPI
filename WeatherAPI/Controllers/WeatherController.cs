@@ -1,8 +1,4 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Nancy.Json;
-using System.Collections;
-using WeatherAPI.Repository.Models;
 using Business = WeatherAPI.BusinessLogic.Interfaces;
 
 namespace WeatherAPI.Controllers

@@ -1,8 +1,5 @@
-
-using Microsoft.AspNetCore.Connections;
 using System.Reflection;
 using WeatherAPI.Models;
-using Microsoft.Extensions.Configuration;
 
 
 var builder = WebApplication.CreateBuilder(args);

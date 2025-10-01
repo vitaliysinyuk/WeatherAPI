@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Serialization;
-
-namespace WeatherAPI.Repository.Models
+﻿namespace WeatherAPI.Repository.Models
 {
     public class WeatherData
     {
