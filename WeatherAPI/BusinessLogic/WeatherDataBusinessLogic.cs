@@ -39,7 +39,7 @@ namespace WeatherAPI.BusinessLogic
         /// </summary>
         /// <param name="weatherData"></param>
         /// <returns></returns>
-        public List<WeatherDataByDay> MapWeatherDataByDay(List<WeatherData>? weatherData)
+        private List<WeatherDataByDay> MapWeatherDataByDay(List<WeatherData>? weatherData)
         {
             var weatherDataMap = new List<WeatherDataByDay>();
 

@@ -23,6 +23,11 @@ namespace WeatherAPI.Controllers
         public  async Task<ActionResult> GetWeatherData(DateTime fromDate, DateTime toDate, float lat, float lon)
         {
             var weatherData = await _weatherDataBusinessLogic.GetWeatherDataByDay(fromDate, toDate, lat, lon);
+
+            if (!weatherData.Any())
+            {
+                _logger.LogWarning("No weather data returned");
+            }
             
             return Ok(weatherData);
         }
