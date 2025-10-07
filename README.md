@@ -1,0 +1,1 @@
+This weather API pulls weather data from NASA Power, which is a free third party API, and can be used for anything you want. Currrently it just pulls in min,max and average temps for a location and specific dates as well as precipitation.
